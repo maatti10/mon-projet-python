@@ -1,5 +1,13 @@
+
 # Mon gestionnaire de tâches complet
-taches = ["Apprendre Python", "Découvrir Github"]
+import json
+
+try: 
+    with open("taches.json", "r") as f:
+	    taches = json.load(f)
+except FileNotFoundError:
+    taches = ["Apprendre Python", "Découvrir Github"]
+
 
 while True:
     print("\n=== Mon gestionnaire de tâches ===")
@@ -46,7 +54,9 @@ while True:
         print("Toutes les taches sont supprimées")
     
     elif choix == "4":
-        print("Au revoir !")
+        with open("taches.json", "w") as f:
+             json.dump(taches, f)
+        print("-> Tâches sauvegardées. Au revoir !")
         break
 
 
