@@ -1,4 +1,4 @@
-Python
+
 # Mon gestionnaire de taches
 taches = ["Apprendre Python", "Découvrir Github"]
 
@@ -9,4 +9,4 @@ taches.append(nouvelle_tache)
 #2. Afficher la liste mise a jour
 print("\n=== Liste des taches ===")
 for index, tache in enumerate(taches, 1):
-print(f"{index}. {tache}")
+    print(f"{index}. {tache}")
