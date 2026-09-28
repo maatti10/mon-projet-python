@@ -2,11 +2,27 @@
 # Mon gestionnaire de tâches complet
 import json
 
-try: 
-    with open("taches.json", "r") as f:
-	    taches = json.load(f)
-except FileNotFoundError:
-    taches = ["Apprendre Python", "Découvrir Github"]
+
+def charger_taches() : 
+
+    try: 
+        with open("taches.json", "r" , encoding="utf-8") as f:
+            contenu = json.load(f)
+            return contenu if contenu is not None else []
+    except (FileNotFoundError, json.JSONDecodeError):
+        return  ["Apprendre Python", "Découvrir Github"]
+
+
+def sauvegarder_taches(liste):
+    with open("taches.json", "w" , encoding="utf-8") as f:
+        return json.dump(liste, f)
+
+
+taches = charger_taches()
+
+
+
+
 
 
 while True:
@@ -21,8 +37,8 @@ while True:
     print("1. Ajouter une tâche")
     print("2. Modifier une tâche")
     print("3. Supprimer une tâche")
-    print("5. Supprimer toutes tâches")
-    print("4. Quitter")
+    print("4. Supprimer toutes tâches")
+    print("5. Quitter")
 
     choix = input("Entre ton choix (1-5) : ")
 
@@ -49,13 +65,12 @@ while True:
             print("Numéro invalide.")
 
 
-    elif choix == "5":
+    elif choix == "4":
         taches.clear()
         print("Toutes les taches sont supprimées")
     
-    elif choix == "4":
-        with open("taches.json", "w") as f:
-             json.dump(taches, f)
+    elif choix == "5":
+        sauvegarder_taches(taches)
         print("-> Tâches sauvegardées. Au revoir !")
         break
 
