@@ -40,16 +40,26 @@ def ajouter_tache(liste) :
 
 
 def modifier_tache(liste):
+    # 1. Sécurité : si la liste est vide ([]), inutile d'aller plus loin
     if not liste:
         print("Aucune tâche à modifier.")
-        return
+        return  # On quitte immédiatement la fonction
 
+    # 2. On récupère le choix de l'utilisateur sous forme de texte ("1", "2", etc.)
     saisie = input("Numéro de la tâche à modifier : ").strip()
+
+    # 3. .isdigit() vérifie si ce texte contient uniquement des chiffres
+    # Exemple : "2".isdigit() -> True | "abc".isdigit() -> False
     if saisie.isdigit():
-        num = int(saisie)
+        num = int(saisie)  # On convertit le texte en vrai nombre entier
+        
+        # 4. On vérifie que le numéro existe dans la liste (entre 1 et le nombre total de tâches)
         if 1 <= num <= len(liste):
             nouveau_texte = input("Nouveau texte : ").strip()
+            
+            # 5. On vérifie que le nouveau texte n'est pas vide
             if nouveau_texte:
+                # - 1 car les listes Python commencent à l'index 0, pas à 1
                 liste[num - 1] = nouveau_texte
                 print("-> Tâche modifiée !")
             else:
@@ -58,6 +68,47 @@ def modifier_tache(liste):
             print("Numéro hors limites.")
     else:
         print("Entrée invalide, saisis un nombre entier.")
+
+
+
+
+def supprimer_tache(liste):
+    if not liste:
+        print("Aucune tâche à supprimer.")
+        return 
+
+    saisie = input("Numéro de la tâche à supprimer : ").strip()
+    if saisie.isdigit():
+        num = int(saisie)
+        if 1 <= num <= len(liste):
+            supprimee = liste.pop(num - 1)
+            print(f"-> Tâche « {supprimee} » supprimée !")
+        else:
+            print("Numéro hors limites.")
+    else:
+        print("Entrée invalide, saisis un nombre entier.")
+
+
+
+
+def supprimer_toutes_taches(liste):
+    if not liste:
+            print("il n'y a rien à supprimer.")
+            return
+    confirmation = input("Es-tu sûr de vouloir TOUT supprimer ? (o/n) : ").strip().lower() 
+    if confirmation == "o" :
+            taches.clear()
+            print("Toutes les taches sont supprimées")
+    else :
+        print("Action annulée")
+                    
+
+
+ 
+
+    
+
+
 
 
 
@@ -89,17 +140,12 @@ while True :
         
 
     elif choix == "3":
-        num = int(input("Numéro de la tâche à supprimer : "))
-        if 1 <= num <= len(taches):
-            supprimee = taches.pop(num - 1)
-            print(f"-> Tâche '{supprimee}' supprimée !")
-        else:
-            print("Numéro invalide.")
+        supprimer_tache(taches)
 
 
     elif choix == "4":
-        taches.clear()
-        print("Toutes les taches sont supprimées")
+        supprimer_toutes_taches(taches)
+        
     
     elif choix == "5":
         sauvegarder_taches(taches)
