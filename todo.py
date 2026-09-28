@@ -18,6 +18,49 @@ def sauvegarder_taches(liste):
         return json.dump(liste, f)
 
 
+
+def afficher_taches(liste): 
+    print("\n=== Mon gestionnaire de tâches ===")
+    if not liste:
+        print("Aucune tache pour le moment")
+    else:
+        for i, tache in enumerate(liste, 1):
+            print(f"{i}. {tache}")
+
+
+
+def ajouter_tache(liste) : 
+    nouvelle = input("Nouvelle tâche : ").strip()
+    
+    if  nouvelle : 
+            liste.append(nouvelle)
+            print("-> Tâche ajoutée !")
+    else :
+        print("Texte vide, aucune tâche ajoutée.")    
+
+
+def modifier_tache(liste):
+    if not liste:
+        print("Aucune tâche à modifier.")
+        return
+
+    saisie = input("Numéro de la tâche à modifier : ").strip()
+    if saisie.isdigit():
+        num = int(saisie)
+        if 1 <= num <= len(liste):
+            nouveau_texte = input("Nouveau texte : ").strip()
+            if nouveau_texte:
+                liste[num - 1] = nouveau_texte
+                print("-> Tâche modifiée !")
+            else:
+                print("Texte vide, modification annulée.")
+        else:
+            print("Numéro hors limites.")
+    else:
+        print("Entrée invalide, saisis un nombre entier.")
+
+
+
 taches = charger_taches()
 
 
@@ -25,13 +68,9 @@ taches = charger_taches()
 
 
 
-while True:
-    print("\n=== Mon gestionnaire de tâches ===")
-    if not taches:
-        print("(Aucune tâche pour le moment)")
-    else:
-        for i, tache in enumerate(taches, 1):
-            print(f"{i}. {tache}")
+while True :
+
+    afficher_taches(taches)
 
     print("\nQue veux-tu faire ?")
     print("1. Ajouter une tâche")
@@ -43,18 +82,11 @@ while True:
     choix = input("Entre ton choix (1-5) : ")
 
     if choix == "1":
-        nouvelle = input("Nouvelle tâche : ")
-        taches.append(nouvelle)
-        print("-> Tâche ajoutée !")
+        ajouter_tache(taches)
 
     elif choix == "2":
-        num = int(input("Numéro de la tâche à modifier : "))
-        if 1 <= num <= len(taches):
-            nouveau_texte = input("Nouveau texte : ")
-            taches[num - 1] = nouveau_texte
-            print("-> Tâche modifiée !")
-        else:
-            print("Numéro invalide.")
+        modifier_tache(taches)
+        
 
     elif choix == "3":
         num = int(input("Numéro de la tâche à supprimer : "))
