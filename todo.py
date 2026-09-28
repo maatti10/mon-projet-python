@@ -132,7 +132,23 @@ def terminer_tache(liste):
 
  
 
+#================== afficher_taches en cours =====================
+def afficher_taches_en_cours(liste) :
+    if not liste:
+        print("aucune tache !!!")
+        return
+
+    for i, tache in enumerate(liste, 1) :
+         
+         if not tache["fait"]  :
+            print(f"{i}.[ ] {tache['titre']}") 
+        
+         
+
+            
+
     
+
 
 
 
@@ -155,9 +171,10 @@ while True :
     print("3. Terminer une tâche")
     print("4. Supprimer tache")
     print("5. Supprimer toutes tâches")
-    print("6. Sauvegarder les taches")
+    print("6. Afficher les taches non faites")
+    print("7. Sauvegarder les taches")
 
-    choix = input("Entre ton choix (1-6) : ")
+    choix = input("Entre ton choix (1-7) : ")
 
     if choix == "1":
         ajouter_tache(taches)
@@ -176,14 +193,18 @@ while True :
     
     elif choix == "5":
         supprimer_toutes_taches(taches)
-        print("-> Tâches supprimées. Au revoir !")
+        print("-> Tâches supprimées !")
 
     elif choix == "6" :
+        afficher_taches_en_cours(taches)
+        print("-> Tâches non faites !")
+
+
+    elif choix == "7" :
         sauvegarder_taches(taches)
         print("-> Tâches sauvegardées et quitter. Au revoir !")
 
         break
-
 
 
     else:
