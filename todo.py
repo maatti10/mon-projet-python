@@ -24,7 +24,7 @@ def demander_index(liste, message) :
      
 
 
-
+#================ charger_taches ============================
 def charger_taches() : 
 
     try: 
@@ -33,8 +33,8 @@ def charger_taches() :
             return contenu if contenu is not None else []
     except (FileNotFoundError, json.JSONDecodeError):
         return [
-            {"titre": "Apprendre Python", "fait": False},
-            {"titre": "Découvrir Github", "fait": False}
+            {"titre": "Apprendre Python", "fait": False, "priorite": "Haute"},
+            {"titre": "Découvrir Github", "fait": False, "priorite": "Haute"}
         ]
 
 
@@ -45,27 +45,48 @@ def sauvegarder_taches(liste):
 
 
 #================== Affiche les tâches #==============
-def afficher_taches(liste): 
-    print("\n=== Mon gestionnaire de tâches ===")
+def afficher_taches(liste):
     if not liste:
-        print("Aucune tache pour le moment")
-    else:
-        for i, tache in enumerate(liste, 1):
-            statut = "[X]" if tache["fait"] else "[ ]"
-            
-            print(f"{i}. {statut} {tache['titre']}")
+        print("Aucune tâche enregistrée.")
+        return
 
+    print("\n--- Liste des tâches ---")
+    for i, tache in enumerate(liste, 1):
+        statut = "[X]" if tache["fait"] else "[ ]"
+        priorite = tache.get("priorite", "Moyenne")
+        print(f"{i}. {statut} {tache['titre']} [{priorite}]")
+    print("------------------------\n")
 
 #================== ajoute  tâches #==============
 def ajouter_tache(liste) : 
-    nouvelle = input("Nouvelle tâche : ").strip()
+
+    titre = input("Titre de la tâche : ").strip()
+    if not titre:
+         print("Le titre ne peut pas être vide.")
+         return
+
+    print("Niveau de priorité :")
+    print("1. Haute")
+    print("2. Moyenne")
+    print("3. Basse")
+
+    choix_p = input("Choix (1-3, défaut Moyenne) : ").strip()
+
+
+    if choix_p == "1":
+        priorite = "Haute"
+    elif choix_p == "3":
+         priorite = "Basse"
+    else:
+         priorite = "Moyenne"
     
-    if  nouvelle : 
-            liste.append({"titre" : nouvelle, "fait": False})
-            print("-> Tâche ajoutée !")
-            sauvegarder_taches(liste)
-    else :
-        print("Texte vide, aucune tâche ajoutée.")    
+    
+    liste.append({"titre" : titre, "fait": False, "priorite":  priorite})
+    
+    
+    print(f"-> Tâche '{titre}' ajoutée avec priorité {priorite} !")
+    sauvegarder_taches(liste)
+      
 
 
 
@@ -152,15 +173,18 @@ def terminer_tache(liste):
  
 
 #================== afficher_taches en cours =====================
-def afficher_taches_en_cours(liste) :
-    if not liste:
-        print("aucune tache !!!")
+#================== afficher_taches en cours =====================
+def afficher_taches_en_cours(liste):
+    en_cours = [t for t in liste if not t["fait"]]
+    if not en_cours:
+        print("\nAucune tâche en cours (tout est fait ou liste vide) !")
         return
 
-    for i, tache in enumerate(liste, 1) :
-         
-         if not tache["fait"]  :
-            print(f"{i}.[ ] {tache['titre']}") 
+    print("\n--- Tâches en cours ---")
+    for i, tache in enumerate(en_cours, 1):
+        priorite = tache.get("priorite", "Moyenne")
+        print(f"{i}. [ ] {tache['titre']} [{priorite}]")
+    print("-----------------------\n")
         
 
 
@@ -208,7 +232,7 @@ while True :
 
     elif choix == "7" :
         
-        print("Au revoir !")
+        print("7. Quitter")
 
         break
 
