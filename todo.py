@@ -2,6 +2,28 @@
 # Mon gestionnaire de tâches complet
 import json
 
+#================ demande d'index =====================
+def demander_index(liste, message) :
+        
+        saisie = input(message).strip()
+        if saisie.isdigit():
+            num = int(saisie)
+            if 1<= num <= len(liste) :
+                return  num - 1
+            else:
+                print("numero hors limites")
+
+        else:
+            print("Entrée invalise saisis un nombre entier")
+
+        return None
+        
+
+
+
+     
+
+
 
 def charger_taches() : 
 
@@ -53,33 +75,21 @@ def modifier_tache(liste):
     # 1. Sécurité : si la liste est vide ([]), inutile d'aller plus loin
     if not liste:
         print("Aucune tâche à modifier.")
-        return  # On quitte immédiatement la fonction
+        return  
+    
+    index = demander_index(liste, "Numéro de la tâche à modifier : ")
 
-    # 2. On récupère le choix de l'utilisateur sous forme de texte ("1", "2", etc.)
-    saisie = input("Numéro de la tâche à modifier : ").strip()
-
-    # 3. .isdigit() vérifie si ce texte contient uniquement des chiffres
-    # Exemple : "2".isdigit() -> True | "abc".isdigit() -> False
-    if saisie.isdigit():
-        num = int(saisie)  # On convertit le texte en vrai nombre entier
-        
-        # 4. On vérifie que le numéro existe dans la liste (entre 1 et le nombre total de tâches)
-        if 1 <= num <= len(liste):
-            nouveau_texte = input("Nouveau texte : ").strip()
+    if index is not None :
+         nouveau_texte = input("Nouveau texte : ").strip()
             
-            # 5. On vérifie que le nouveau texte n'est pas vide
-            if nouveau_texte:
-                # - 1 car les listes Python commencent à l'index 0, pas à 1
-                liste[num - 1]["titre"] = nouveau_texte
-                print("-> Tâche modifiée !")
-                sauvegarder_taches(liste)
-            else:
-                print("Texte vide, modification annulée.")
-        else:
-            print("Numéro hors limites.")
-    else:
-        print("Entrée invalide, saisis un nombre entier.")
-
+         if nouveau_texte:
+                    liste[index]["titre"] = nouveau_texte
+                    print("-> Tâche modifiée !")
+                    sauvegarder_taches(liste)
+         else:
+                    print("Texte vide, modification annulée.")
+        
+    
 
 
 #================== supprimer tâche ==================
@@ -88,17 +98,14 @@ def supprimer_tache(liste):
         print("Aucune tâche à supprimer.")
         return
 
-    saisie = input("Numéro de la tâche à supprimer : ").strip()
-    if saisie.isdigit():
-        num = int(saisie)
-        if 1 <= num <= len(liste):
-            supprimee = liste.pop(num - 1)
-            print(f"-> Tâche '{supprimee['titre']}' supprimée !")
-            sauvegarder_taches(liste)
-        else:
-            print("Numéro hors limites.")
-    else:
-        print("Entrée invalide, saisis un nombre entier.")
+    index = demander_index(liste, "Numero de la tache a supprimer !")
+    if index is not None:
+        supprimee = liste.pop(index)
+        print(f"-> Tâche '{supprimee['titre']} supprimée !")
+        sauvegarder_taches(liste)
+
+
+    
 
 
 
@@ -124,19 +131,22 @@ def terminer_tache(liste):
         print("Aucune tâche à marquer.")
         return
 
-    saisie = input("Numéro de la tâche à cocher/décocher : ").strip()
-    if saisie.isdigit():
-        num = int(saisie)
-        if 1 <= num <= len(liste):
-            index = num - 1
+    index = demander_index(liste, "Numéro de la tâche à cocher/décocher : ")
+
+    if index is not None:
+
+            
             liste[index]["fait"] = not liste[index]["fait"]
+
             etat = "terminée" if liste[index]["fait"] else "non terminée"
+
             print(f"-> Tâche marquée comme {etat} !")
             sauvegarder_taches(liste)
-        else:
-            print("Numéro hors limites.")
-    else:
-        print("Entrée invalide, saisis un nombre entier.")                  
+         
+
+        
+    
+                    
 
 
  
