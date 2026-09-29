@@ -41,9 +41,13 @@ def ajouter_tache(liste) :
     if  nouvelle : 
             liste.append({"titre" : nouvelle, "fait": False})
             print("-> Tâche ajoutée !")
+            sauvegarder_taches(liste)
     else :
         print("Texte vide, aucune tâche ajoutée.")    
 
+
+
+#================== modifier les tâches #==============
 
 def modifier_tache(liste):
     # 1. Sécurité : si la liste est vide ([]), inutile d'aller plus loin
@@ -68,6 +72,7 @@ def modifier_tache(liste):
                 # - 1 car les listes Python commencent à l'index 0, pas à 1
                 liste[num - 1]["titre"] = nouveau_texte
                 print("-> Tâche modifiée !")
+                sauvegarder_taches(liste)
             else:
                 print("Texte vide, modification annulée.")
         else:
@@ -77,7 +82,7 @@ def modifier_tache(liste):
 
 
 
-#================== supprimer tâches ==================
+#================== supprimer tâche ==================
 def supprimer_tache(liste):
     if not liste:
         print("Aucune tâche à supprimer.")
@@ -89,6 +94,7 @@ def supprimer_tache(liste):
         if 1 <= num <= len(liste):
             supprimee = liste.pop(num - 1)
             print(f"-> Tâche '{supprimee['titre']}' supprimée !")
+            sauvegarder_taches(liste)
         else:
             print("Numéro hors limites.")
     else:
@@ -105,11 +111,13 @@ def supprimer_toutes_taches(liste):
     if confirmation == "o" :
                 liste.clear()
                 print("Toutes les taches sont supprimées")
+                sauvegarder_taches(liste)
     else :
             print("Action annulée")
 
 
 
+#================== terminer tâche #==============
 
 def terminer_tache(liste):
     if not liste:
@@ -124,6 +132,7 @@ def terminer_tache(liste):
             liste[index]["fait"] = not liste[index]["fait"]
             etat = "terminée" if liste[index]["fait"] else "non terminée"
             print(f"-> Tâche marquée comme {etat} !")
+            sauvegarder_taches(liste)
         else:
             print("Numéro hors limites.")
     else:
@@ -143,22 +152,9 @@ def afficher_taches_en_cours(liste) :
          if not tache["fait"]  :
             print(f"{i}.[ ] {tache['titre']}") 
         
-         
-
-            
-
-    
-
-
-
-
 
 
 taches = charger_taches()
-
-
-
-
 
 
 while True :
@@ -201,8 +197,8 @@ while True :
 
 
     elif choix == "7" :
-        sauvegarder_taches(taches)
-        print("-> Tâches sauvegardées et quitter. Au revoir !")
+        
+        print("Au revoir !")
 
         break
 
